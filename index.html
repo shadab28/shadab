@@ -1,0 +1,302 @@
+<!-- Chosen Palette: Slate & Teal Dark Mode -->
+<!-- Application Structure Plan: The application is structured as a top-down narrative, starting with a high-level summary (Hero), moving to personal context (About), then diving into career progression (Experience Timeline), followed by a visual showcase of capabilities (Interactive Skills Dashboard & Projects), and ending with a clear call-to-action (Contact). This structure was chosen over a simple list to guide recruiters and contacts through a compelling story of professional growth and expertise, using interactive elements to make data exploration engaging and intuitive. -->
+<!-- Visualization & Content Choices: 1. Skills List -> Goal: Organize & Inform -> Viz: Interactive Grouped Bar Chart -> Interaction: Hover tooltips for skill details -> Justification: Transforms a static list into an engaging, explorable data visualization that immediately demonstrates technical breadth. -> Library: Chart.js (Canvas). 2. Career History -> Goal: Show Change/Progression -> Viz: Vertical Timeline -> Interaction: Chronological flow guides the user through career milestones. -> Justification: Clearly illustrates career progression and experience over time in a universally understood format. -> Library/Method: HTML/CSS with Tailwind. 3. Performance Metrics (e.g., 36% returns, Sharpe 3.2) -> Goal: Inform & Emphasize -> Viz: Highlighted text with icons -> Interaction: N/A (static emphasis) -> Justification: Draws immediate attention to key quantitative achievements within the context of the role. -> Library/Method: HTML/CSS. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohd Shadab Siddiqui - Quantitative Trading Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #cbd5e1; }
+        .nav-link { position: relative; transition: color 0.3s; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; background-color: #2dd4bf; transition: all 0.3s ease-in-out; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; left: 0; }
+        .fade-in-section { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+        .timeline-line { position: absolute; left: -2.75rem; top: 0.5rem; bottom: 0; width: 2px; background-color: #334155; }
+        .timeline-item:last-child .timeline-line { display: none; }
+        .timeline-icon { position: absolute; left: -3.5rem; top: 0.5rem; }
+        .chart-container { position: relative; width: 100%; height: 500px; max-height: 70vh; margin: auto; }
+        @media (max-width: 768px) { .chart-container { height: 600px; } }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-sm shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-black text-white tracking-wider">MS.</a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="#about" class="nav-link text-slate-300 hover:text-teal-400">About</a>
+                <a href="#experience" class="nav-link text-slate-300 hover:text-teal-400">Experience</a>
+                <a href="#skills" class="nav-link text-slate-300 hover:text-teal-400">Skills</a>
+                <a href="#projects" class="nav-link text-slate-300 hover:text-teal-400">Projects</a>
+                <a href="#contact" class="nav-link text-slate-300 hover:text-teal-400">Contact</a>
+                <a href="Trader_Shadab.pdf" target="_blank" class="ml-2 text-teal-400 border border-teal-400 px-4 py-2 rounded-md hover:bg-teal-400/10 transition-colors">Resume</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-slate-300 focus:outline-none">
+                <span class="w-6 h-6 flex flex-col justify-around">
+                    <span class="block w-full h-0.5 bg-slate-300 rounded-full"></span>
+                    <span class="block w-full h-0.5 bg-slate-300 rounded-full"></span>
+                    <span class="block w-full h-0.5 bg-slate-300 rounded-full"></span>
+                </span>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
+            <a href="#about" class="block py-2 text-slate-300 hover:text-teal-400">About</a>
+            <a href="#experience" class="block py-2 text-slate-300 hover:text-teal-400">Experience</a>
+            <a href="#skills" class="block py-2 text-slate-300 hover:text-teal-400">Skills</a>
+            <a href="#projects" class="block py-2 text-slate-300 hover:text-teal-400">Projects</a>
+            <a href="#contact" class="block py-2 text-slate-300 hover:text-teal-400">Contact</a>
+            <a href="Trader_Shadab.pdf" target="_blank" class="block py-2 text-teal-400 border border-teal-400 text-center rounded-md hover:bg-teal-400/10 transition-colors">Resume</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6">
+
+        <section id="home" class="min-h-screen flex flex-col justify-center items-start pt-24">
+            <div class="max-w-3xl">
+                <p class="text-lg text-teal-400 font-medium mb-3">Hello, I'm</p>
+                <h1 class="text-5xl sm:text-7xl font-black text-slate-100 mb-4">Mohd Shadab Siddiqui.</h1>
+                <h2 class="text-4xl sm:text-5xl font-bold text-slate-400 mb-6">I build data-driven trading systems.</h2>
+                <p class="text-slate-400 max-w-xl mb-8">
+                    As a Quantitative Trader with a foundation in Engineering and Applied Mathematics from IIT Roorkee, I specialize in architecting and deploying high-performance algorithmic trading strategies. My focus is on leveraging market microstructure and advanced risk models to drive profitability in the derivatives markets.
+                </p>
+                <a href="#experience" class="inline-block bg-teal-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-teal-600 transition-colors duration-300 shadow-lg shadow-teal-500/30">
+                    Explore My Experience
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="py-32 fade-in-section">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-100 mb-12 flex items-center"><span class="text-teal-400 mr-4 text-3xl">01.</span> About Me <span class="flex-grow ml-6 h-px bg-slate-700"></span></h2>
+            <div class="flex flex-col md:flex-row items-start gap-12">
+                <div class="md:w-2/3 space-y-4 text-slate-300">
+                    <p>My journey into quantitative finance was a natural progression from my academic roots in engineering and applied mathematics. I've always been driven by the challenge of finding signals in noisy data, a pursuit that led me from data analysis internships to architecting sophisticated trading systems at leading proprietary trading firms.</p>
+                    <p>At NX-Block trades and Futures First, I've been responsible for the end-to-end development of trading strategies—from alpha research and model creation to building low-latency execution systems. I excel at managing significant proprietary capital by implementing rigorous risk controls, including Monte Carlo simulations and VaR models, ensuring both performance and stability.</p>
+                    <p>I am passionate about building tools that provide a competitive edge. Whether it's developing custom scanners to find mispricing or creating real-time dashboards to improve intraday decisions, my work is centered on enhancing efficiency and profitability through technology.</p>
+                </div>
+                <div class="md:w-1/3 flex justify-center mt-8 md:mt-0">
+                    <div class="w-64 h-80 rounded-lg overflow-hidden bg-slate-800 border-2 border-teal-400/50 shadow-2xl group relative">
+                        <img src="https://placehold.co/400x500/0f172a/34d399?text=MS" alt="Mohd Shadab Siddiqui" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-teal-500/20 mix-blend-multiply group-hover:bg-transparent transition-all duration-300"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-32 fade-in-section">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-100 mb-16 flex items-center"><span class="text-teal-400 mr-4 text-3xl">02.</span> Professional Experience <span class="flex-grow ml-6 h-px bg-slate-700"></span></h2>
+            <div class="relative pl-12">
+                <div class="timeline-line"></div>
+                <div class="timeline-item mb-16 relative">
+                    <div class="timeline-icon bg-slate-800 rounded-full p-3 border-2 border-slate-600">
+                        <div class="w-3 h-3 bg-teal-400 rounded-full"></div>
+                    </div>
+                    <p class="text-sm text-teal-400 mb-1">Aug 2024 - Present</p>
+                    <h3 class="text-xl font-bold text-slate-100">Quantitative Trader @ NX-Block trades, Noida</h3>
+                    <ul class="mt-4 list-disc list-inside text-slate-400 space-y-2 pl-2">
+                        <li>Architected algorithmic strategies in Indian F&O, achieving <strong>36% annual returns</strong> with a <strong>Sharpe Ratio of 3.2</strong>.</li>
+                        <li>Engineered a low-latency Python execution system with sub-20ms order routing, optimizing fills via market microstructure analysis.</li>
+                        <li>Managed a <strong>15 crore</strong> trading book, using Monte Carlo simulations and dynamic risk controls to optimize capital and limit drawdowns.</li>
+                        <li>Built real-time dashboards and event-tracking tools, boosting intraday strategy efficiency by <strong>75%</strong>.</li>
+                    </ul>
+                </div>
+                <div class="timeline-item mb-16 relative">
+                    <div class="timeline-icon bg-slate-800 rounded-full p-3 border-2 border-slate-600">
+                        <div class="w-3 h-3 bg-teal-400 rounded-full"></div>
+                    </div>
+                    <p class="text-sm text-teal-400 mb-1">Jul 2021 - Aug 2024</p>
+                    <h3 class="text-xl font-bold text-slate-100">Algo Trader, SOFR Interest Rates @ Futures First, Gurugram</h3>
+                    <ul class="mt-4 list-disc list-inside text-slate-400 space-y-2 pl-2">
+                        <li>Developed 6 quantitative strategies for SR3, ZQ, & SR1 futures, yielding a <strong>Sharpe ratio of 2.2</strong>.</li>
+                        <li>Constructed fair-value and illiquidity-adjusted pricing models, successfully capturing <strong>30% of market volume</strong> in new SR1 contracts.</li>
+                        <li>Optimized Autospreader and ADL execution logic through order flow analytics, increasing fill rates by <strong>50% YoY</strong>.</li>
+                        <li>Managed an <strong>$800K</strong> proprietary portfolio with VaR and scenario-based risk models.</li>
+                    </ul>
+                </div>
+                 <div class="timeline-item relative">
+                    <div class="timeline-icon bg-slate-800 rounded-full p-3 border-2 border-slate-600">
+                        <div class="w-3 h-3 bg-teal-400 rounded-full"></div>
+                    </div>
+                    <p class="text-sm text-teal-400 mb-1">May 2019 - Jul 2019</p>
+                    <h3 class="text-xl font-bold text-slate-100">Data Analyst Intern @ Tinysteps, Bengaluru</h3>
+                    <ul class="mt-4 list-disc list-inside text-slate-400 space-y-2 pl-2">
+                        <li>Cleaned and analyzed large datasets using Pandas and NumPy, delivering key insights with Matplotlib and Seaborn visualizations.</li>
+                        <li>Built and validated machine learning models with scikit-learn, applying statistical testing to predictions using SciPy.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="skills" class="py-32 fade-in-section">
+             <h2 class="text-3xl md:text-4xl font-bold text-slate-100 mb-16 flex items-center"><span class="text-teal-400 mr-4 text-3xl">03.</span> Technical Skills Dashboard <span class="flex-grow ml-6 h-px bg-slate-700"></span></h2>
+             <p class="text-center max-w-2xl mx-auto mb-12 text-slate-400">This chart provides an overview of my technical toolkit, categorized for clarity. It reflects the primary languages, libraries, and concepts I use to build and deploy quantitative trading strategies. Interact with the chart to see details.</p>
+             <div class="bg-slate-800 p-4 sm:p-8 rounded-xl shadow-2xl">
+                <div class="chart-container">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+             </div>
+        </section>
+
+        <section id="projects" class="py-32 fade-in-section">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-100 mb-16 flex items-center"><span class="text-teal-400 mr-4 text-3xl">04.</span> Key Projects <span class="flex-grow ml-6 h-px bg-slate-700"></span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-slate-800 rounded-lg p-6 shadow-lg transition-transform hover:-translate-y-2 duration-300">
+                    <h3 class="text-xl font-bold text-slate-100 mb-2">Statistical Anomaly Detection in Options Data</h3>
+                    <p class="text-slate-400 mb-4">An academic project at IIT Roorkee that utilized the Isolation Forest algorithm to detect anomalies in options data across various strikes and maturities. Successfully identified unusual behavior in spread, price, and Greeks in a multidimensional space.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-slate-700 text-teal-300 text-xs font-semibold px-2.5 py-1 rounded-full">Unsupervised Learning</span>
+                        <span class="bg-slate-700 text-teal-300 text-xs font-semibold px-2.5 py-1 rounded-full">Isolation Forest</span>
+                        <span class="bg-slate-700 text-teal-300 text-xs font-semibold px-2.5 py-1 rounded-full">Data Analysis</span>
+                    </div>
+                </div>
+                <div class="bg-slate-800 rounded-lg p-6 shadow-lg transition-transform hover:-translate-y-2 duration-300">
+                    <h3 class="text-xl font-bold text-slate-100 mb-2">Finance & Sponsorship Management System</h3>
+                    <p class="text-slate-400 mb-4">As Head of Finance for Cognizance at IIT Roorkee, I managed a budget of <strong>13 million INR</strong> and led a team of over 135 members to raise <strong>6 million INR</strong> in funding. Revamped publicity schemes, increasing tier-2 sponsors by 25%.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-slate-700 text-teal-300 text-xs font-semibold px-2.5 py-1 rounded-full">Budget Management</span>
+                        <span class="bg-slate-700 text-teal-300 text-xs font-semibold px-2.5 py-1 rounded-full">Team Leadership</span>
+                        <span class="bg-slate-700 text-teal-300 text-xs font-semibold px-2.5 py-1 rounded-full">Sponsorship</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-32 text-center fade-in-section">
+             <h2 class="text-3xl md:text-4xl font-bold text-slate-100 mb-4"><span class="text-teal-400">05.</span> Let's Connect</h2>
+            <p class="max-w-xl mx-auto text-slate-400 mb-8">
+                I am actively exploring new opportunities where I can apply my skills in quantitative trading and data analysis. If you'd like to discuss a role or project, please feel free to reach out.
+            </p>
+            <a href="mailto:msiddiqui@ce.iitr.ac.in" class="inline-block bg-transparent border-2 border-teal-400 text-teal-400 font-bold py-3 px-8 rounded-lg hover:bg-teal-400/10 transition-colors duration-300">
+                Get In Touch
+            </a>
+        </section>
+    </main>
+
+    <footer class="py-8">
+        <div class="container mx-auto px-6 text-center text-slate-500">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="hover:text-teal-400 transition-colors"><span class="w-6 h-6 block">
+                    <span class="w-px h-px absolute overflow-hidden top-0 left-0">GitHub</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                </span></a>
+                <a href="https://www.linkedin.com/in/mohdshadabsiddiqui/" target="_blank" class="hover:text-teal-400 transition-colors"><span class="w-6 h-6 block">
+                    <span class="w-px h-px absolute overflow-hidden top-0 left-0">LinkedIn</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </span></a>
+            </div>
+            <p>Designed & Built by Mohd Shadab Siddiqui</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+            mobileMenu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); }); });
+            
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { entry.target.classList.add('is-visible'); }
+                });
+            }, { threshold: 0.1 });
+            sections.forEach(section => { observer.observe(section); });
+
+            const navLinks = document.querySelectorAll('nav a.nav-link');
+            const allSections = document.querySelectorAll('main section');
+            window.addEventListener('scroll', () => {
+                let current = 'home';
+                allSections.forEach(section => {
+                    if (pageYOffset >= section.offsetTop - 100) { current = section.getAttribute('id'); }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active', 'text-teal-400');
+                    link.classList.add('text-slate-300');
+                    if (link.href.includes(current)) {
+                        link.classList.add('active', 'text-teal-400');
+                        link.classList.remove('text-slate-300');
+                    }
+                });
+            });
+
+            const skillsData = {
+                'Languages': ['Python', 'SQL', 'C++', 'MATLAB'],
+                'Libraries': ['Scikit-learn', 'PyTorch', 'TensorFlow', 'Pandas', 'NumPy', 'Seaborn'],
+                'Tools & APIs': ['XTS API', 'Bloomberg', 'Trading Tech', 'Reuters', 'Tableau', 'Shell', 'REST APIs'],
+                'Concepts': ['Risk Modeling', 'Monte Carlo', 'Market Micro', 'Low-Latency']
+            };
+
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(skillsData),
+                    datasets: [{
+                        label: 'Number of Skills',
+                        data: Object.values(skillsData).map(arr => arr.length),
+                        backgroundColor: [
+                            'rgba(20, 184, 166, 0.4)',
+                            'rgba(14, 165, 233, 0.4)',
+                            'rgba(139, 92, 246, 0.4)',
+                            'rgba(236, 72, 153, 0.4)'
+                        ],
+                        borderColor: [
+                            'rgba(45, 212, 191, 1)',
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(167, 139, 250, 1)',
+                            'rgba(244, 114, 182, 1)'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#94a3b8', font: { weight: 'bold' } }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: '#e2e8f0', font: { size: 14, weight: 'bold' } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#1e293b',
+                            titleFont: { size: 16, weight: 'bold' },
+                            bodyFont: { size: 14 },
+                            padding: 12,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    const category = context.label;
+                                    const skills = skillsData[category];
+                                    return skills.join(', ');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
