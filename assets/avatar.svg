@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500" fill="none">
+  <rect width="400" height="500" rx="16" fill="#0f172a" />
+  <g transform="translate(50,60)">
+    <circle cx="150" cy="120" r="80" fill="#14b8a6" />
+    <rect x="0" y="240" width="300" height="180" rx="12" fill="#0b1220" stroke="#2dd4bf" stroke-opacity="0.3" />
+    <text x="150" y="370" fill="#cbd5e1" font-family="Inter, sans-serif" font-size="20" text-anchor="middle">Mohd Shadab</text>
+  </g>
+</svg>

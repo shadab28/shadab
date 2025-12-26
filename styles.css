@@ -1,0 +1,56 @@
+/* Palette: Slate & Teal Dark Mode */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+:root{--bg:#0f172a;--muted:#94a3b8;--text:#cbd5e1;--accent:#2dd4bf}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial; background:var(--bg); color:var(--text); margin:0; -webkit-font-smoothing:antialiased}
+.container{max-width:1100px;margin:0 auto}
+.nav-link{position:relative;transition:color .3s}
+.nav-link::after{content:'';position:absolute;width:0;height:2px;bottom:-4px;left:50%;background-color:var(--accent);transition:all .3s ease-in-out}
+.nav-link:hover::after,.nav-link.active::after{width:100%;left:0}
+.fade-in-section{opacity:0;transform:translateY(30px);transition:opacity .8s ease-out,transform .8s ease-out}
+.fade-in-section.is-visible{opacity:1;transform:translateY(0)}
+.timeline-line{position:absolute;left:-2.75rem;top:.5rem;bottom:0;width:2px;background-color:#334155}
+.timeline-item:last-child .timeline-line{display:none}
+.timeline-icon{position:absolute;left:-3.5rem;top:.5rem}
+.chart-container{position:relative;width:100%;height:500px;max-height:70vh;margin:auto}
+@media (max-width:768px){.chart-container{height:600px}}
+button{cursor:pointer}
+/* Light theme */
+[data-theme="light"]{--bg:#f8fafc;--muted:#475569;--text:#0f172a;--accent:#0ea5a4}
+[data-theme="light"] body{background:var(--bg);color:var(--text)}
+/* Utilities */
+.text-teal-400{color:#2dd4bf}
+.bg-teal-500{background:#14b8a6}
+.text-slate-300{color:#cbd5e1}
+.bg-slate-800{background:#0b1220}
+.bg-slate-700{background:#111827}
+.border-teal-400{border-color:#2dd4bf}
+
+/* Simple responsive layout helpers for this small site */
+header{position:fixed;left:0;right:0;top:0;z-index:50;background:rgba(15,23,42,.8);backdrop-filter:blur(6px);box-shadow:0 6px 18px rgba(2,6,23,.6)}
+header .container{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem}
+main{padding:4rem 1.5rem 6rem}
+@media (min-width:768px){main{padding:6rem 1.5rem}}
+section{padding-top:4rem;padding-bottom:4rem}
+footer{padding:2rem 1.5rem}
+
+/* Small tweaks to match previous Tailwind look */
+h1{font-weight:900}
+h2{font-weight:800}
+h3{font-weight:700}
+
+/* Card styles */
+.rounded-lg{border-radius:8px}
+.shadow-2xl{box-shadow:0 25px 50px rgba(2,6,23,.7)}
+
+/* Accessibility */
+a:focus{outline:2px dashed var(--accent);outline-offset:3px}
+
+/* Mobile menu */
+#mobile-menu{padding:0 1.5rem 1rem}
+
+/* Small avatar container */
+.avatar-frame{width:16rem;height:20rem;border-radius:8px;overflow:hidden;background:#0b1220;border:2px solid rgba(45,212,191,.3);box-shadow:0 12px 30px rgba(2,6,23,.6)}
+.avatar-frame img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.avatar-frame:hover img{transform:scale(1.03)}
